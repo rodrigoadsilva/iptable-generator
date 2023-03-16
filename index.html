@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS 5.0.2
+    <link href="css/bootstrap.min.css" rel="stylesheet">-->
+
+    <!-- Custom Bootstrap CSS 4.1.3 -->
+    <link rel="stylesheet" href="css/custom-bootstrap.4.1.3.min.css">
+
+    <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+
+    <title>IPTABLES GENERATOR</title>
+</head>
+
+<body>
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-10">
+                <img src="img/logo-ccm-tecnologia.png" style="height: 50px;" class="img-fluid mx-auto d-block" alt="CCM-Logo">
+                <h2 class="text-center my-3">CCM IPTABLES GENERATOR</h2>
+                <div class="card bg-maincard">
+                    <div class="card-body">
+                        
+                        <form autocomplete="off" onsubmit="event.preventDefault(); coletaValores();">
+                            <div class="row">
+                                <!-- Primeira coluna -->
+                                <div class="col-6">
+                                    <!-- Nome Host -->
+                                    <div class="form-group row">
+                                        <label for="iptHostName" class="col-4 col-form-label">Nome do Host</label> 
+                                        <div class="col-8">
+                                            <input id="iptHostName" name="iptHostName" placeholder="CLIENTE" type="text" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <!-- Tabela -->
+                                    <div class="form-group row">
+                                        <label class="col-4">Tabela</label> 
+                                        <div class="col-8">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="iptTable" id="iptTable_0" type="radio" class="custom-control-input" value="filter" checked> 
+                                                <label for="iptTable_0" class="custom-control-label">FILTER</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="iptTable" id="iptTable_1" type="radio" class="custom-control-input" value="nat"> 
+                                                <label for="iptTable_1" class="custom-control-label">NAT</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TOP/DOWN -->
+                                    <div class="form-group row">
+                                        <label class="col-4">TOP/DOWN</label> 
+                                        <div class="col-8">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="iptTopDown" id="iptTopDown_0" type="radio" class="custom-control-input" value="I" checked> 
+                                                <label for="iptTopDown_0" class="custom-control-label">TOP</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="iptTopDown" id="iptTopDown_1" type="radio" class="custom-control-input" value="A"> 
+                                                <label for="iptTopDown_1" class="custom-control-label">DOWN</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Chain -->
+                                    <div class="form-group row">
+                                        <label for="iptChain" class="col-4 col-form-label">Chain</label> 
+                                        <div class="col-8">
+                                            <select id="iptChain" name="iptChain" class="custom-select">
+                                                <option value="INPUT">INPUT</option>
+                                                <option value="OUTPUT">OUTPUT</option>
+                                                <option value="FORWARD">FORWARD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Interface IN -->
+                                    <div class="form-group row">
+                                        <label class="col-4 mt-2">Interface IN</label> 
+                                        <div class="col-3">
+                                            <input id="iptInterfaceIn" name="iptInterfaceIn" placeholder="eth01" type="text" class="form-control">    
+                                        </div>
+                                    </div>
+                                    <!-- Interface OUT -->
+                                    <div class="form-group row">
+                                        <label class="col-4 mt-2">Interface OUT</label> 
+                                        <div class="col-3">
+                                            <input id="iptInterfaceOut" name="iptInterfaceOut" placeholder="eth01" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!-- IP Origem -->
+                                    <div class="form-group row">
+                                        <label for="iptIpOrigem" class="col-4 col-form-label">IP Origem</label> 
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-7 pr-1">
+                                                    <input id="iptIpOrigem" name="iptIpOrigem" placeholder="172.0.0.1" type="text" class="form-control">
+                                                </div>
+                                                <div class="col-5 pl-0">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                          <div class="input-group-text">:</div>
+                                                        </div> 
+                                                        <input id="iptPortaOrigem" name="iptPortaOrigem" placeholder="8080" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- IP Destino -->
+                                    <div class="form-group row">
+                                        <label for="iptIpDestino" class="col-4 col-form-label">IP Destino</label> 
+                                        <div class="col-5">
+                                            <input id="iptIpDestino" name="iptIpDestino" placeholder="172.0.0.2" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Segunda coluna -->
+                                <div class="col-6">
+                                    <!-- Protocolo -->
+                                    <div class="form-group row">
+                                        <label class="col-4">Protocolo</label> 
+                                        <div class="col-8">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="iptProtocolo" id="iptProtocolo_0" type="radio" class="custom-control-input" value="tcp" checked> 
+                                                <label for="iptProtocolo_0" class="custom-control-label">TCP</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="iptProtocolo" id="iptProtocolo_1" type="radio" class="custom-control-input" value="udp"> 
+                                                <label for="iptProtocolo_1" class="custom-control-label">UDP</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Policy -->
+                                    <div class="form-group row">
+                                        <label for="iptPolicy" class="col-4 col-form-label">Policy</label> 
+                                        <div class="col-8">
+                                            <select id="iptPolicy" name="iptPolicy" class="custom-select">
+                                                <option value="ACCEPT">ACCEPT</option>
+                                                <option value="REJECT">REJECT</option>
+                                                <option value="DROP">DROP</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- IP LAN Destino -->
+                                    <div id="formIpLanDestino" style="display: none;">
+                                        <div class="form-group row">
+                                            <label for="iptIpLanDestino" class="col-4 col-form-label">IP LAN Destino</label> 
+                                            <div class="col-8">
+                                                <div class="row">
+                                                    <div class="col-7 pr-1">
+                                                        <input id="iptIpLanDestino" name="iptIpLanDestino" placeholder="10.0.0.1" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="col-5 pl-0">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                            <div class="input-group-text">:</div>
+                                                            </div>
+                                                            <input id="iptPortaLanDestino" name="iptPortaLanDestino" placeholder="8081" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-lg btn-block">GERAR</button>
+                        </form>
+
+                        <label for="iptPortaLanDestino" class="mt-4">Resultado:</label>
+                        <textarea class="form-control" id="textAreaResultado" placeholder="..." rows="10" disabled></textarea>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main JS Code -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
